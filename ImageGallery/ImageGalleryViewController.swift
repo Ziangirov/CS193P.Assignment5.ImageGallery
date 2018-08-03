@@ -256,7 +256,7 @@ class ImageGalleryViewController: UICollectionViewController, UICollectionViewDe
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
         if let view = trashBarButtonItem.value(forKey: "view") as? UIView {
         let dropPoint = session.location(in: view)
-            if abs(dropPoint.x) <= view.bounds.width && dropPoint.y <= view.bounds.height {
+            if view.frame.contains(dropPoint) {
                 return UIDropProposal(operation: .move)
             }
         }
