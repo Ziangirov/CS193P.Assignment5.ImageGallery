@@ -19,7 +19,7 @@ class ImageGalleryViewController: UICollectionViewController, UICollectionViewDe
         setupNavigationController()
         addTrashButton()
         
-        // MARK: - DOTO: Notifications
+        // TODO: - Notifications
     }
     
     var gallery = ImageGallery() {
@@ -137,7 +137,7 @@ class ImageGalleryViewController: UICollectionViewController, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellWidth = (defaultCellWidth / 3 - 1) * imageCellScale
+        let cellWidth = Double((defaultCellWidth / 3 - 1) * imageCellScale)
         return CGSize(width: cellWidth, height: cellWidth / gallery.images[indexPath.item].aspectRatio)
     }
     
@@ -223,11 +223,11 @@ class ImageGalleryViewController: UICollectionViewController, UICollectionViewDe
                         reuseIdentifier: "cellId"
                     )
                 )
-                var aspectRatio = CGFloat()
+                var aspectRatio = Double()
                 item.dragItem.itemProvider.loadObject(ofClass: UIImage.self) { provider, error in
                     DispatchQueue.main.async {
                         if let image = provider as? UIImage {
-                            aspectRatio = image.size.aspectRatio
+                            aspectRatio = Double(image.size.aspectRatio)
                         }
                     }
                 }
@@ -272,10 +272,10 @@ class ImageGalleryViewController: UICollectionViewController, UICollectionViewDe
                 index = $0
             }
         }
-        collectionView.performBatchUpdates({
+        collectionView?.performBatchUpdates({
             let indexPath = IndexPath(item: index, section: 0)
             gallery.images.remove(at: index)
-            collectionView.deleteItems(at: [indexPath])
+            collectionView?.deleteItems(at: [indexPath])
         })
     }
 

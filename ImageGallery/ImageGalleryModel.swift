@@ -8,26 +8,12 @@
 
 import UIKit
 
-struct ImageGallery: Hashable {
-    var hashValue: Int { return identifier.hashValue }
-    
-    static func == (lhs: ImageGallery, rhs: ImageGallery) -> Bool {
-        return lhs.identifier == rhs.identifier
-    }
-    
-    struct Image: Hashable {
-        var hashValue: Int {
-            return imagePath?.hashValue ?? 0
-        }
-        
-        static func ==(lhs: ImageGallery.Image, rhs: ImageGallery.Image) -> Bool {
-            return lhs.imagePath == rhs.imagePath
-        }
-        
+struct ImageGallery {
+    struct Image {
         var imagePath: URL?
-        var aspectRatio: CGFloat
+        var aspectRatio: Double
         
-        init(imagePath: URL?, aspectRatio: CGFloat) {
+        init(imagePath: URL?, aspectRatio: Double) {
             self.imagePath = imagePath
             self.aspectRatio = aspectRatio
         }
@@ -38,4 +24,24 @@ struct ImageGallery: Hashable {
     var images = [Image]()
     var title = String()
     
+}
+
+extension ImageGallery: Equatable {
+    static func == (lhs: ImageGallery, rhs: ImageGallery) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+}
+
+extension ImageGallery: Hashable {
+    var hashValue: Int { return identifier.hashValue }
+}
+
+extension ImageGallery.Image: Equatable {
+    static func ==(lhs: ImageGallery.Image, rhs: ImageGallery.Image) -> Bool {
+        return lhs.imagePath == rhs.imagePath
+    }
+}
+
+extension ImageGallery.Image: Hashable {
+    var hashValue: Int { return imagePath?.hashValue ?? 0 }
 }
